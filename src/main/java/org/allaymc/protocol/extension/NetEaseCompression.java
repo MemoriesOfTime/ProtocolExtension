@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.cloudburstmc.protocol.bedrock.data.CompressionAlgorithm;
 import org.cloudburstmc.protocol.bedrock.data.PacketCompressionAlgorithm;
 import org.cloudburstmc.protocol.bedrock.netty.codec.compression.BatchCompression;
@@ -22,13 +23,14 @@ import java.util.zip.DataFormatException;
  * <ol>
  *     <li>Try raw deflate (ZLIB_RAW) first</li>
  *     <li>If that fails, try standard zlib (with headers)</li>
- *     <li>If that fails, return the data as-is (no compression)</li>
+ *     <li>If both fail, log warning and return raw data</li>
  * </ol>
  * <p>
  * Compression uses raw deflate format (ZLIB_RAW).
  *
  * @author daoge_cmd
  */
+@Slf4j
 public class NetEaseCompression implements BatchCompression {
 
     private static final int MAX_DECOMPRESSED_BYTES = Integer.getInteger("bedrock.maxDecompressedBytes", 1024 * 1024 * 10);
@@ -61,6 +63,7 @@ public class NetEaseCompression implements BatchCompression {
         try {
             return Zlib.RAW.inflate(msg, MAX_DECOMPRESSED_BYTES);
         } catch (DataFormatException e) {
+            log.warn("Raw deflate decompression failed: {}", e.getMessage());
             // Raw deflate failed, reset and try standard zlib
             msg.resetReaderIndex();
         }
@@ -69,11 +72,12 @@ public class NetEaseCompression implements BatchCompression {
         try {
             return Zlib.DEFAULT.inflate(msg, MAX_DECOMPRESSED_BYTES);
         } catch (DataFormatException e) {
-            // Standard zlib failed, reset and return as-is
+            log.warn("Standard zlib decompression also failed: {}", e.getMessage());
             msg.resetReaderIndex();
         }
 
-        // No decompression worked, return the data as-is
+        // All decompression methods failed, return raw data with warning
+        log.warn("All decompression methods failed, returning raw data");
         return msg.retainedSlice();
     }
 
