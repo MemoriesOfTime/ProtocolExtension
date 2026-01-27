@@ -1,7 +1,10 @@
 package org.allaymc.protocol.extension.v766;
 
+import org.allaymc.protocol.extension.packet.ConfirmSkinPacket;
+import org.allaymc.protocol.extension.packet.PyRpcPacket;
 import org.cloudburstmc.protocol.bedrock.codec.BedrockCodec;
 import org.cloudburstmc.protocol.bedrock.codec.v766.Bedrock_v766;
+import org.cloudburstmc.protocol.bedrock.data.PacketRecipient;
 import org.cloudburstmc.protocol.bedrock.data.inventory.ContainerSlotType;
 import org.cloudburstmc.protocol.bedrock.packet.PlayerAuthInputPacket;
 import org.cloudburstmc.protocol.bedrock.packet.PlayerEnchantOptionsPacket;
@@ -27,5 +30,7 @@ public class Bedrock_v766_NetEase extends Bedrock_v766 {
             .updateSerializer(PlayerAuthInputPacket.class, PlayerAuthInputSerializer_v766_NetEase.INSTANCE)
             .updateSerializer(TextPacket.class, TextSerializer_v766_NetEase.INSTANCE)
             .updateSerializer(PlayerEnchantOptionsPacket.class, PlayerEnchantOptionsSerializer_v766_NetEase.INSTANCE)
+            .registerPacket(PyRpcPacket::new, PyRpcSerializer_v766_NetEase.INSTANCE, 200, PacketRecipient.BOTH)
+            .registerPacket(ConfirmSkinPacket::new, ConfirmSkinSerializer_v766_NetEase.INSTANCE, 228, PacketRecipient.CLIENT)
             .build();
 }
