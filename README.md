@@ -1,5 +1,7 @@
 # Protocol Extension
 
+[![protocol-extension](https://img.shields.io/maven-central/v/org.allaymc/protocol-extension?label=protocol-extension)](https://central.sonatype.com/artifact/org.allaymc/protocol-extension)
+
 A NetEase (China) Minecraft protocol extension library for [CloudburstMC/Protocol](https://github.com/CloudburstMC/Protocol).
 
 ## Features
@@ -23,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.allaymc:protocol-extension:0.1.0")
+    implementation("org.allaymc:protocol-extension:<version>")
 }
 ```
 
@@ -33,7 +35,7 @@ dependencies {
 <dependency>
     <groupId>org.allaymc</groupId>
     <artifactId>protocol-extension</artifactId>
-    <version>0.1.0</version>
+    <version><version></version>
 </dependency>
 ```
 
