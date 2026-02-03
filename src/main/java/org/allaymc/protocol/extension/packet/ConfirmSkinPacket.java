@@ -28,7 +28,7 @@ public class ConfirmSkinPacket implements BedrockPacket {
     }
 
     public BedrockPacketType getPacketType() {
-        return BedrockPacketType.SIMULATION_TYPE;
+        return BedrockPacketType.UNKNOWN;
     }
 
     @Override

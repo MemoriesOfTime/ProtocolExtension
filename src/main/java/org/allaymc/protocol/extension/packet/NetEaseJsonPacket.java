@@ -8,29 +8,18 @@ import org.cloudburstmc.protocol.bedrock.packet.BedrockPacketType;
 import org.cloudburstmc.protocol.common.PacketSignal;
 
 /**
- * NetEase packet used for Python Scripting API RPC calls.
- * <p>
- * This packet transports MsgPack encoded data for the NetEase Python engine events and callbacks.
+ * @author daoge_cmd
  */
 @Data
 @EqualsAndHashCode(doNotUseGetters = true, callSuper = false)
-public class PyRpcPacket implements BedrockPacket {
-
-    /**
-     * MsgPack message
-     */
-    private byte[] data;
-    /**
-     * Protocol Magic Number.
-     * Must be 98247598 (0x05DB1EEE) for the packet to be accepted by the server.
-     */
-    private long msgId;
-
+public class NetEaseJsonPacket implements BedrockPacket {
+    private String json;
     @Override
-    public final PacketSignal handle(BedrockPacketHandler handler) {
+    public PacketSignal handle(BedrockPacketHandler handler) {
         return PacketSignal.UNHANDLED;
     }
 
+    @Override
     public BedrockPacketType getPacketType() {
         return BedrockPacketType.UNKNOWN;
     }
@@ -38,7 +27,7 @@ public class PyRpcPacket implements BedrockPacket {
     @Override
     public BedrockPacket clone() {
         try {
-            return (PyRpcPacket) super.clone();
+            return (NetEaseJsonPacket) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError(e);
         }
