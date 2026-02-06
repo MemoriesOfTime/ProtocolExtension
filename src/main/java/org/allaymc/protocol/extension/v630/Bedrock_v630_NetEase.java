@@ -1,5 +1,9 @@
 package org.allaymc.protocol.extension.v630;
 
+import org.allaymc.protocol.extension.common.ConfirmSkinSerializer;
+import org.allaymc.protocol.extension.common.NetEaseJsonSerializer;
+import org.allaymc.protocol.extension.common.PyRpcSerializer;
+import org.allaymc.protocol.extension.common.StoreBuySuccessSerializer;
 import org.allaymc.protocol.extension.packet.ConfirmSkinPacket;
 import org.allaymc.protocol.extension.packet.NetEaseJsonPacket;
 import org.allaymc.protocol.extension.packet.PyRpcPacket;
@@ -7,7 +11,6 @@ import org.allaymc.protocol.extension.packet.StoreBuySuccessPacket;
 import org.allaymc.protocol.extension.v766.*;
 import org.cloudburstmc.protocol.bedrock.codec.BedrockCodec;
 import org.cloudburstmc.protocol.bedrock.codec.v630.Bedrock_v630;
-import org.cloudburstmc.protocol.bedrock.codec.v766.Bedrock_v766;
 import org.cloudburstmc.protocol.bedrock.data.PacketRecipient;
 import org.cloudburstmc.protocol.bedrock.data.inventory.ContainerSlotType;
 import org.cloudburstmc.protocol.bedrock.packet.PlayerAuthInputPacket;
@@ -20,7 +23,7 @@ import org.cloudburstmc.protocol.common.util.TypeMap;
  *
  * @author daoge_cmd
  */
-public class Bedrock_v630_NetEase extends Bedrock_v766 {
+public class Bedrock_v630_NetEase extends Bedrock_v630 {
 
     protected static final TypeMap<ContainerSlotType> CONTAINER_SLOT_TYPES_NETEASE = CONTAINER_SLOT_TYPES
             .toBuilder()
@@ -34,9 +37,9 @@ public class Bedrock_v630_NetEase extends Bedrock_v766 {
             .updateSerializer(PlayerAuthInputPacket.class, PlayerAuthInputSerializer_v630_NetEase.INSTANCE)
             .updateSerializer(TextPacket.class, TextSerializer_v630_NetEase.INSTANCE)
             .updateSerializer(PlayerEnchantOptionsPacket.class, PlayerEnchantOptionsSerializer_v766_NetEase.INSTANCE)
-            .registerPacket(PyRpcPacket::new, PyRpcSerializer_v766_NetEase.INSTANCE, 200, PacketRecipient.BOTH)
-            .registerPacket(StoreBuySuccessPacket::new, StoreBuySuccessSerializer_v766_NetEase.INSTANCE, 202, PacketRecipient.BOTH) // TODO: check packet recipient
-            .registerPacket(NetEaseJsonPacket::new, NetEaseJsonSerializer_v766_NetEase.INSTANCE, 203, PacketRecipient.BOTH)
-            .registerPacket(ConfirmSkinPacket::new, ConfirmSkinSerializer_v766_NetEase.INSTANCE, 228, PacketRecipient.CLIENT)
+            .registerPacket(PyRpcPacket::new, PyRpcSerializer.INSTANCE, 200, PacketRecipient.BOTH)
+            .registerPacket(StoreBuySuccessPacket::new, StoreBuySuccessSerializer.INSTANCE, 202, PacketRecipient.BOTH) // TODO: check packet recipient
+            .registerPacket(NetEaseJsonPacket::new, NetEaseJsonSerializer.INSTANCE, 203, PacketRecipient.BOTH)
+            .registerPacket(ConfirmSkinPacket::new, ConfirmSkinSerializer.INSTANCE, 228, PacketRecipient.CLIENT)
             .build();
 }

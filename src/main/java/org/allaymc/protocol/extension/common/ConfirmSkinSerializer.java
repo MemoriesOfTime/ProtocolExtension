@@ -1,12 +1,12 @@
-package org.allaymc.protocol.extension.v766;
+package org.allaymc.protocol.extension.common;
 
 import io.netty.buffer.ByteBuf;
 import org.allaymc.protocol.extension.packet.ConfirmSkinPacket;
 import org.cloudburstmc.protocol.bedrock.codec.BedrockCodecHelper;
 import org.cloudburstmc.protocol.bedrock.codec.BedrockPacketSerializer;
 
-public class ConfirmSkinSerializer_v766_NetEase implements BedrockPacketSerializer<ConfirmSkinPacket> {
-    public static final ConfirmSkinSerializer_v766_NetEase INSTANCE = new ConfirmSkinSerializer_v766_NetEase();
+public class ConfirmSkinSerializer implements BedrockPacketSerializer<ConfirmSkinPacket> {
+    public static final ConfirmSkinSerializer INSTANCE = new ConfirmSkinSerializer();
 
     @Override
     public void serialize(ByteBuf buffer, BedrockCodecHelper helper, ConfirmSkinPacket packet) {
