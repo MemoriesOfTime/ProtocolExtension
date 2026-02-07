@@ -56,6 +56,15 @@ public class PlayerAuthInputSerializer_v766_NetEase extends PlayerAuthInputSeria
         helper.writeVector2f(buffer, packet.getAnalogMoveVector());
         helper.writeVector3f(buffer, packet.getCameraOrientation());
         helper.writeVector2f(buffer, packet.getRawMoveVector());
+
+        // NetEase only start
+        buffer.writeBoolean(false); // ThirdPersonPerspective
+        buffer.writeFloatLE(0);
+        buffer.writeFloatLE(0); // PlayerRotationToCamera
+        buffer.writeBoolean(false); // ReadyPosDeltaDirty
+        buffer.writeBoolean(false); // OnGround
+        buffer.writeByte(0); // ResetPosition
+        // NetEase only end
     }
 
     @Override
@@ -93,5 +102,14 @@ public class PlayerAuthInputSerializer_v766_NetEase extends PlayerAuthInputSeria
         packet.setAnalogMoveVector(helper.readVector2f(buffer));
         packet.setCameraOrientation(helper.readVector3f(buffer));
         packet.setRawMoveVector(helper.readVector2f(buffer));
+
+        // NetEase only start
+        buffer.readBoolean(); // ThirdPersonPerspective
+        buffer.readFloatLE();
+        buffer.readFloatLE(); // PlayerRotationToCamera
+        buffer.readBoolean(); // ReadyPosDeltaDirty
+        buffer.readBoolean(); // OnGround
+        buffer.readByte(); // ResetPosition
+        // NetEase only end
     }
 }
