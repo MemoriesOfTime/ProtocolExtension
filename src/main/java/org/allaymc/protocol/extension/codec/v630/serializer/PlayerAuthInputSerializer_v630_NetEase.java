@@ -26,7 +26,11 @@ public class PlayerAuthInputSerializer_v630_NetEase extends PlayerAuthInputSeria
         buffer.writeFloatLE(packet.getMotion().getX());
         buffer.writeFloatLE(packet.getMotion().getY());
         buffer.writeFloatLE(rotation.getZ());
-        helper.writeLargeVarIntFlags(buffer, packet.getInputData(), PlayerAuthInputData.class);
+        long flagValue = 0;
+        for (PlayerAuthInputData data : packet.getInputData()) {
+            flagValue |= (1L << data.ordinal());
+        }
+        VarInts.writeUnsignedLong(buffer, flagValue);
         VarInts.writeUnsignedInt(buffer, packet.getInputMode().ordinal());
         VarInts.writeUnsignedInt(buffer, packet.getPlayMode().ordinal());
         writeInteractionModel(buffer, helper, packet);
@@ -60,7 +64,12 @@ public class PlayerAuthInputSerializer_v630_NetEase extends PlayerAuthInputSeria
         packet.setMotion(Vector2f.from(buffer.readFloatLE(), buffer.readFloatLE()));
         float z = buffer.readFloatLE();
         packet.setRotation(Vector3f.from(x, y, z));
-        helper.readLargeVarIntFlags(buffer, packet.getInputData(), PlayerAuthInputData.class);
+        long flagValue = VarInts.readUnsignedLong(buffer);
+        for (PlayerAuthInputData flag : PlayerAuthInputData.values()) {
+            if ((flagValue & (1L << flag.ordinal())) != 0) {
+                packet.getInputData().add(flag);
+            }
+        }
         packet.setInputMode(INPUT_MODES[VarInts.readUnsignedInt(buffer)]);
         packet.setPlayMode(CLIENT_PLAY_MODES[VarInts.readUnsignedInt(buffer)]);
         readInteractionModel(buffer, helper, packet);
